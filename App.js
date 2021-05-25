@@ -1,15 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from "react-navigation";
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { createStackNavigator } from "react-navigation-stack";
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+import HomeScreen from './components/HomeScreen';
+import AboutScreen from './components/AboutScreen';
+import BooksList from './components/Movies';
+
+
+export default class App extends React.Component {
+  render() {
+    return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
   );
+  }
 }
+
+const AppNavigator = createDrawerNavigator({
+  Home: {
+    screen: HomeScreen
+  },
+  About: {
+    screen: AboutScreen
+  },
+  Movies: {
+    screen: BooksList
+  }
+},{
+    initialRouteName: "Home",
+     contentOptions: {
+        activeTintColor: '#e91e63'
+     }
+  });
+
+const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   container: {
@@ -19,3 +48,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+
